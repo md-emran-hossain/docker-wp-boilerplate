@@ -1,0 +1,78 @@
+version: '3'
+
+services:
+  #nginx
+  webserver:
+    build:
+      context: .
+      dockerfile: nginx.dockerfile
+    container_name: nginx
+    ports:
+      - 8000:80
+    volumes:
+      - ./wp:/var/www/html
+    depends_on:
+      - php
+      - mysql
+    links:
+      - wp
+    networks:
+      - mb4wp-plugin
+  #mysql database
+  mysql:
+    image: mysql:5.7.4
+    volumes:
+      - mb4wp-plugin:/var/lib/mysql
+    container_name: mysql
+    restart: always
+    ports:
+      - 3306:3306
+    env_file: .env
+    environment:
+      MYSQL_DATABASE: $MYSQL_DATABASE
+      MYSQL_USER: $MYSQL_USER
+      MYSQL_PASSWORD: $MYSQL_PASSWORD
+      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+    networks:
+      - mb4wp-plugin
+  #php
+  php:
+    build:
+      context: .
+      dockerfile: php.dockerfile
+    container_name: php
+    volumes:
+      - ./wp:/var/www/html
+    networks:
+      - mb4wp-plugin
+  #wordpress
+  wp:
+    build:
+      context: .
+      dockerfile: php.dockerfile
+    container_name: wp
+    entrypoint: ['wp', '--allow-root']
+    volumes:
+      - ./wp:/var/www/html
+    networks:
+      - mb4wp-plugin
+  #adminer
+  adminer:
+    depends_on:
+      - mysql
+    image: adminer:4.8.1
+    restart: always
+    environment:
+      ADMINER_DEFAULT_SERVER: mysql
+    ports:
+      - 9003:8080
+    networks:
+      - mb4wp-plugin
+networks:
+  mb4wp-plugin:
+    driver: bridge
+volumes:
+  mb4wp-plugin:
+  mysql:
+
+
