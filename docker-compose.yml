@@ -14,8 +14,6 @@ services:
     depends_on:
       - php
       - mysql
-    links:
-      - wp
     networks:
       - mb4wp-plugin
   #mysql database
@@ -74,5 +72,3 @@ networks:
 volumes:
   mb4wp-plugin:
   mysql:
-
-
