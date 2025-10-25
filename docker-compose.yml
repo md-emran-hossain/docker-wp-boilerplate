@@ -15,12 +15,12 @@ services:
       - php
       - mysql
     networks:
-      - mb4wp-plugin
+      - wp_app_net
   #mysql database
   mysql:
     image: mysql:5.7.4
     volumes:
-      - mb4wp-plugin:/var/lib/mysql
+      - mysql_data:/var/lib/mysql
     container_name: mysql
     restart: always
     # The database will connect properly when this line is commented out
@@ -34,7 +34,7 @@ services:
       MYSQL_PASSWORD: $MYSQL_PASSWORD
       MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
     networks:
-      - mb4wp-plugin
+      - wp_app_net
   #php
   php:
     build:
@@ -44,7 +44,7 @@ services:
     volumes:
       - ./wp:/var/www/html
     networks:
-      - mb4wp-plugin
+      - wp_app_net
   #wordpress
   wp:
     build:
@@ -55,7 +55,7 @@ services:
     volumes:
       - ./wp:/var/www/html
     networks:
-      - mb4wp-plugin
+      - wp_app_net
   #adminer
   adminer:
     depends_on:
@@ -67,10 +67,9 @@ services:
     ports:
       - 9003:8080
     networks:
-      - mb4wp-plugin
+      - wp_app_net
 networks:
-  mb4wp-plugin:
+  wp_app_net:
     driver: bridge
 volumes:
-  mb4wp-plugin:
-  mysql:
+  mysql_data:
