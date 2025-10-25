@@ -65,7 +65,7 @@ services:
     environment:
       ADMINER_DEFAULT_SERVER: mysql
     ports:
-      - 9003:8080
+      - 8080:8080
     networks:
       - wp_app_net
 networks:
