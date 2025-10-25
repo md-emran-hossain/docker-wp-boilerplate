@@ -23,8 +23,10 @@ services:
       - mb4wp-plugin:/var/lib/mysql
     container_name: mysql
     restart: always
-    ports:
-      - 3306:3306
+    # The database will connect properly when this line is commented out
+    # Uncomment only if you need to access the database from outside of the container
+    # ports:
+    #  - 3306:3306 # change port if required
     env_file: .env
     environment:
       MYSQL_DATABASE: $MYSQL_DATABASE
