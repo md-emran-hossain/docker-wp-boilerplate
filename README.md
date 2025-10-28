@@ -24,7 +24,7 @@ A simplified yet refined Docker Compose workflow that sets up a LEMP network of 
     ```
 
 2.  **Configure your environment:**
-    Create a `.env` file by copying the example file:
+    Create a `.env` file by copying the example `.env.example` file:
     ```bash
     cp .env.example .env
     ```
@@ -58,11 +58,7 @@ A simplified yet refined Docker Compose workflow that sets up a LEMP network of 
 
 ## Configuration
 
-To configure the environment, you'll need to create a `.env` file by copying the provided example:
-```bash
-cp .env.example .env
-```
-Then, you can customize the variables within the `.env` file to match your needs.
+All environment configuration is managed through the `.env` file, which you create during the installation process. You can customize the variables within this file to change the database credentials, ports, and other settings.
 
 ### Environment Variables
 
