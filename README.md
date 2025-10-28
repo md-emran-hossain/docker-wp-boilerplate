@@ -1,32 +1,80 @@
-# docker-compose-wordpress
+# Docker WP Boilerplate
+
 A simplified yet refined Docker Compose workflow that sets up a LEMP network of containers for local WordPress development.
+
+## Features
+
+*   **Web Server:** Nginx
+*   **PHP:** PHP-FPM (version can be customized in `php.dockerfile`)
+*   **Database:** MySQL (version can be customized in the `.env` file)
+*   **Database Management:** Adminer (a lightweight database management tool)
+*   **WordPress CLI:** WP-CLI included for managing WordPress core, plugins, and more.
+
+## Prerequisites
+
+*   [Docker](https://docs.docker.com/get-docker/)
+*   [Docker Compose](https://docs.docker.com/compose/install/)
+
+## Installation
+
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/md-emran-hossain/docker-wp-boilerplate.git
+    cd docker-wp-boilerplate
+    ```
+
+2.  **Configure your environment:**
+    Create a `.env` file by copying the example file:
+    ```bash
+    cp .env.example .env
+    ```
+    Update the `.env` file with your desired MySQL credentials.
+
+3.  **Build and start the containers:**
+    ```bash
+    docker-compose up -d --build
+    ```
+    The `--build` flag ensures that Docker images are built before the containers are started. This is important for the first time you run the command or after making changes to the Dockerfiles.
 
 ## Usage
 
-To get started, make sure you have [Docker installed](https://docs.docker.com/docker-for-mac/install/) on your system, and then clone this repository.
+*   **Access your WordPress site:**
+    Open your web browser and navigate to `http://localhost:${APP_PORT}` (the default is `8000`).
 
-Next, navigate in your terminal to the directory you cloned this, and spin up the containers for the web server by running `docker-compose up -d --build site`.
+*   **Use WP-CLI:**
+    You can run any WP-CLI command from your project root. For example:
+    ```bash
+    docker-compose run --rm wp core version
+    docker-compose run --rm wp plugin list
+    ```
 
-After that completes, follow the steps from the [src/README.md](src/README.md) file to get your WordPress installation added in (or create a new blank one).
+*   **Access the database:**
+    Adminer is available at `http://localhost:${DB_ADMIN_PORT}` (the default is `8080`). You can log in using the MySQL credentials from your `.env` file. The "Server" should be `mysql`.
 
-Bringing up the Docker Compose network with `site` instead of just using `up`, ensures that only our site's containers are brought up at the start, instead of all of the command containers as well. The following are built for our web server, with their exposed ports detailed:
+*   **Stop the environment:**
+    ```bash
+    docker-compose down
+    ```
 
-- **nginx** - `:80`
-- **mysql** - `:3306`
-- **php** - `:9000`
+## Configuration
 
-An additional container is included that lets you use the wp-cli app without having to install it on your local machine. Use the following command examples from your project root, modifying them to fit your particular use case.
-
-- `docker-compose run --rm wp user list`
-
-## Persistent MySQL Storage
-
-By default, whenever you bring down the Docker network, your MySQL data will be removed after the containers are destroyed. If you would like to have persistent data that remains after bringing containers down and back up, do the following:
-
-1. Create a `mysql` folder in the project root, alongside the `nginx` and `src` folders.
-2. Under the mysql service in your `docker-compose.yml` file, add the following lines:
-
+To configure the environment, you'll need to create a `.env` file by copying the provided example:
+```bash
+cp .env.example .env
 ```
-volumes:
-  - ./mysql:/var/lib/mysql
-```
+Then, you can customize the variables within the `.env` file to match your needs.
+
+### Environment Variables
+
+The following environment variables can be set in the `.env` file:
+
+**MySQL Settings**
+*   `MYSQL_DATABASE`: The name of the WordPress database.
+*   `MYSQL_USER`: The username for the WordPress database.
+*   `MYSQL_PASSWORD`: The password for the WordPress database user.
+*   `MYSQL_ROOT_PASSWORD`: The root password for the MySQL server.
+*   `MYSQL_VERSION`: The version of MySQL to use (e.g., `5.7` or `8.0`).
+
+**Port Configuration**
+*   `APP_PORT`: The port to access the application (e.g., `8000`).
+*   `DB_ADMIN_PORT`: The port to access the database admin tool (e.g., `8080`).
