@@ -74,3 +74,12 @@ The following environment variables can be set in the `.env` file:
 **Port Configuration**
 *   `APP_PORT`: The port to access the application (e.g., `8000`).
 *   `DB_ADMIN_PORT`: The port to access the database admin tool (e.g., `8080`).
+
+### Customizing PHP and Nginx
+
+*   **PHP:** You can change the PHP version by modifying the `FROM` instruction in the `php.dockerfile`. You can also customize the PHP configuration by editing the `php/www.conf` file.
+*   **Nginx:** The Nginx configuration can be customized by editing the `nginx/default.conf` file.
+
+## Data Persistence
+
+The MySQL database is persisted in a Docker volume named `mysql_data`. This means your data will not be lost when you stop and start the containers.
