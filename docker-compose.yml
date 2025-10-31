@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   #nginx
   webserver:
@@ -19,6 +17,7 @@ services:
   #mysql database
   mysql:
     image: mysql:5.7.4
+    platform: linux/amd64
     volumes:
       - mysql_data:/var/lib/mysql
     container_name: mysql
@@ -51,7 +50,7 @@ services:
       context: .
       dockerfile: php.dockerfile
     container_name: wp
-    entrypoint: ["/wp-init.sh", 'wp', '--allow-root']
+    entrypoint: ["tail", "-f", "/dev/null"]
     volumes:
       - ./wp:/var/www/html
     networks:
